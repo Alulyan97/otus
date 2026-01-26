@@ -1,0 +1,25 @@
+{
+  "name": "streams",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test2": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alulyan97/otus.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Alulyan97/otus/issues"
+  },
+  "homepage": "https://github.com/Alulyan97/otus#readme",
+  "devDependencies": {
+    "jest": "^30.2.0"
+  }
+}
