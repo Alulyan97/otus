@@ -10,17 +10,17 @@ const users = [
   {
     id: 2,
     name: "Irina",
-    age: 15,
+    age: 18,
   },
 ];
 
-app.get("/person", (req, res) => {
+app.get("/persons", (req, res) => {
   res.status(200);
   res.setHeader("Content-Type", "application/json");
   res.json(users);
 });
 
-app.get("/person/:id", (req, res) => {
+app.get("/persons/:id", (req, res) => {
   const reqId = req.params.id;
 
   for (const user of users) {
@@ -37,19 +37,24 @@ app.get("/person/:id", (req, res) => {
   res.json({ error: "Пользователь не найден" });
 });
 
-app.get("/person/create", (req, res) => {
-  const id = req.query.id;
-  const name = req.query.name;
-  const age = req.query.age;
+app.get("/persons/create", (req, res) => {
+  const { id, name, age } = req.query;
 
-  res.status(200);
-  res.setHeader("Content-Type", "application/json");
+  if (!id && !name && !age) {
+    return res.status(400).json({ error: "Укажите параметры" });
+  }
 
-  res.json({
-    id,
-    name,
-    age,
-  });
+  for (const user of users) {
+    const idOk = id && user.id == id;
+    const nameOk = name && user.name == name;
+    const ageOk = age && user.age == age;
+
+    if (idOk || nameOk || ageOk) {
+      return res.status(200).json(user);
+    }
+  }
+
+  res.status(404).json({ error: "Пользователь не найден" });
 });
 
 app.listen(5000, console.log("сервер запущен на 5000"));
