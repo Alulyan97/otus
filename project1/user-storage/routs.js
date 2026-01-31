@@ -1,26 +1,14 @@
-const express = require("express");
+import { users } from "./users";
+import express from "express";
 const app = express();
 
-const users = [
-  {
-    id: 1,
-    name: "Ivan",
-    age: 15,
-  },
-  {
-    id: 2,
-    name: "Irina",
-    age: 18,
-  },
-];
-
-app.get("/persons", (req, res) => {
+const allUsers = app.get("/persons", (req, res) => {
   res.status(200);
   res.setHeader("Content-Type", "application/json");
   res.json(users);
 });
 
-app.get("/persons/:id", (req, res) => {
+const userById = app.get("/person/:id", (req, res) => {
   const reqId = req.params.id;
 
   for (const user of users) {
@@ -37,24 +25,24 @@ app.get("/persons/:id", (req, res) => {
   res.json({ error: "Пользователь не найден" });
 });
 
-app.get("/persons/create", (req, res) => {
+const userPagination = app.get("/person/create", (req, res) => {
   const { id, name, age } = req.query;
 
-  if (!id && !name && !age) {
-    return res.status(400).json({ error: "Укажите параметры" });
-  }
-
   for (const user of users) {
-    const idOk = id && user.id == id;
+    const idOk = id && user.id.toString() == id;
     const nameOk = name && user.name == name;
-    const ageOk = age && user.age == age;
+    const ageOk = age && user.age.toString() == age;
 
     if (idOk || nameOk || ageOk) {
       return res.status(200).json(user);
     }
   }
 
+  if (!id && !name && !age) {
+    return res.status(400).json({ error: "Укажите параметры" });
+  }
+
   res.status(404).json({ error: "Пользователь не найден" });
 });
 
-app.listen(5000, console.log("сервер запущен на 5000"));
+export { allUsers, userById, userPagination };
