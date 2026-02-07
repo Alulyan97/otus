@@ -1,0 +1,10 @@
+services:
+  app:
+    build: .
+    container_name: project4-docker
+    ports:
+      - "8081:8081"
+    volumes:
+      - ./src:/app/src
+    working_dir: /app
+    restart: unless-stopped
